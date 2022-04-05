@@ -18,6 +18,7 @@ public class ProductApplication {
 	@Bean
 	public CommandLineRunner demo(ProductRepository repository) {
 		return (args) -> {
+			try {
 			// save a few products
 			repository.save(new Product("南山人壽新定期壽險(NTL2)",
 					"投保年齡：15足歲~最高60歲\n依自身需求選擇繳費年期\n彈性改換保障，讓保障更長久\n"));
@@ -55,6 +56,9 @@ public class ProductApplication {
 			// log.info(bauer.toString());
 			// }
 			log.info("");
+			} catch (Exception e) {
+			log.info("duplicate key or cannot find the product");
+			}
 		};
 	}
 
