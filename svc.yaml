@@ -1,0 +1,22 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: product
+  labels:
+    app: product
+spec:
+  ports:
+    - name: http-8080
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+    - name: http-8443
+      protocol: TCP
+      port: 8443
+      targetPort: 8443
+    - name: http-8778
+      protocol: TCP
+      port: 8778
+      targetPort: 8778
+  selector:
+    app: product

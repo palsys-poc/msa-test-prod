@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Optional;
 
 @Entity
 public class Product {
@@ -24,7 +25,7 @@ public class Product {
     @Override
     public String toString() {
         return String.format(
-                "Customer[id=%d, name='%s', content='%s']",
+                "Product[id=%d, name='%s', content='%s']",
                 id, name, content);
     }
 
@@ -32,11 +33,23 @@ public class Product {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
     public String getContent() {
-        return content;
+        return "\n=> " + content;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
