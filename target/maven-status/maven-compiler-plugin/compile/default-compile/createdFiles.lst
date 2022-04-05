@@ -1,0 +1,5 @@
+com/redhat/product/ProductApplication.class
+com/redhat/product/ProductRepository.class
+com/redhat/product/Product.class
+com/redhat/product/IProductService.class
+com/redhat/product/ProductService.class
