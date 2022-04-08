@@ -1,0 +1,53 @@
+pipeline {
+    agent {label 'georgeJavaNode01'}
+	options {buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')}
+    stages {
+        stage ('login ocp') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'msaocp', passwordVariable: 'password', usernameVariable: 'username')]){
+               sh '''
+                    oc login https://api.ocp49.redhat.poc:6443 -u $username -p $password
+                    oc project nanshan
+                '''
+              }
+            }
+        }
+        stage('clone from SCM') {
+            steps {
+                dir("/mprod") {
+                sh 'rm -rf /mprod/msa-test-prod'
+                sh 'git clone git@github.com:palsys-poc/msa-test-prod.git'
+                }
+            }
+			} 
+			
+        stage('Create product-v2 Application') { 
+            steps {
+               dir("/mprod/msa-test-prod") {
+               sh 'git checkout v2'
+               sh './clean-v2.sh  >/dev/null 2>&1'
+               sh 'oc new-app java:openjdk-11-el7~https://github.com/palsys-poc/msa-test-prod.git#v2 --labels="app.kubernetes.io/part-of=msa-test-prod-git-app,app=product,version=v2" --name=product-v2 -n nanshan'
+               }
+                }
+            }			
+
+        stage('config product-v2 service') { 
+            steps {
+               dir("/msa-test-prod") {
+               sh '''
+			       git checkout v2
+                   oc delete svc product-v2
+                '''
+               }
+                }
+            }
+        stage('deploy patch') { 
+            steps {
+               sh '''
+                   oc patch deploy/product-v2 -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}'
+                '''
+                }
+            }
+			
+      }
+    }
