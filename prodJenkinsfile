@@ -49,5 +49,26 @@ pipeline {
                 }
             }
 			
+        stage('check image already build') { 
+            steps {
+               sh '''
+                   echo check image status
+				   oc get is
+				   sleep 7m
+				   echo all done.
+                '''
+                }
+            }
+			
+        stage('push image to quay') { 
+            steps {
+               sh 'docker login -u root -p $(oc whoami -t) default-route-openshift-image-registry.apps.ocp49.redhat.poc'
+			   sh 'docker pull default-route-openshift-image-registry.apps.ocp49.redhat.poc/nanshan/product-v2'
+			   sh 'docker tag default-route-openshift-image-registry.apps.ocp49.redhat.poc/nanshan/product quay.ocp49.redhat.poc/root/product-v2'
+			   sh 'docker push quay.ocp49.redhat.poc/root/product-v2'
+			   sh 'echo all done'
+                }
+            }				
+			
       }
     }
