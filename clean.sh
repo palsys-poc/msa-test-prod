@@ -6,3 +6,4 @@ oc delete bc product
 oc delete secret product-generic-webhook-secret
 oc delete secret product-github-webhook-secret
 echo 'status ok'
+
