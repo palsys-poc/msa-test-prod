@@ -64,7 +64,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'msaquay', passwordVariable: 'password', usernameVariable: 'username')]){
                sh '''
-                    oc login https://quay.ocp49.redhat.poc -u $username -p $password
+                    docker login https://quay.ocp49.redhat.poc -u $username -p $password
                 '''
               }
             }
