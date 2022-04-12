@@ -60,6 +60,16 @@ pipeline {
                 }
             }
 			
+        stage ('login Quay') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'msaquay', passwordVariable: 'password', usernameVariable: 'username')]){
+               sh '''
+                    oc login https://quay.ocp49.redhat.poc -u $username -p $password
+                '''
+              }
+            }
+        }				
+			
         stage('push image to quay') { 
             steps {
                sh 'docker login -u root -p $(oc whoami -t) default-route-openshift-image-registry.apps.ocp49.redhat.poc'
