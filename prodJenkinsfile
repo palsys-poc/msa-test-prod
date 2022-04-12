@@ -74,8 +74,8 @@ pipeline {
             steps {
                sh 'docker login -u root -p $(oc whoami -t) default-route-openshift-image-registry.apps.ocp49.redhat.poc'
 			   sh 'docker pull default-route-openshift-image-registry.apps.ocp49.redhat.poc/nanshan/product-v2'
-			   sh 'docker tag default-route-openshift-image-registry.apps.ocp49.redhat.poc/nanshan/product quay.ocp49.redhat.poc/root/product-v2'
-			   sh 'docker push quay.ocp49.redhat.poc/root/product-v2'
+			   sh 'docker tag default-route-openshift-image-registry.apps.ocp49.redhat.poc/nanshan/product quay.ocp49.redhat.poc/quayadmin/product-v2'
+			   sh 'docker push quay.ocp49.redhat.poc/quayadmin/product-v2'
 			   sh 'echo all done'
                 }
             }				
