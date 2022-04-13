@@ -45,7 +45,7 @@ pipeline {
             steps {
                sh '''
                    oc patch deploy/product-v2 -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}'
-                   oc set probe deployment product-v2 --readiness --get-url=http://:8080/products --period-seconds=10 --initial-delay-seconds=20
+                   oc set probe deployment product-v2 --readiness --get-url=http://:8080/products --period-seconds=3 --initial-delay-seconds=10
                    oc set resources deployment product-v2 --limits=cpu=200m,memory=512Mi --requests=cpu=100m,memory=256Mi
                 '''
                 }
