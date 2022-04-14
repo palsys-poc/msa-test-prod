@@ -42,7 +42,7 @@ public class Product {
     }
 
     public String getContent() {
-        return "\n====> " + content;
+        return "\n--------> " + content;
     }
 
     public void setName(String name) {
